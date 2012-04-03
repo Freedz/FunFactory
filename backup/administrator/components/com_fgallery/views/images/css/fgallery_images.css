@@ -1,0 +1,14 @@
+.button_link {
+	display: block;
+	border: 1px solid #444;
+	background: #eee;
+	margin: 5px 0;
+	width: 150px;
+	text-decoration: none;
+	cursor: pointer;
+	text-align: center;
+}
+
+.button_link:hover {
+	text-decoration: none;
+}

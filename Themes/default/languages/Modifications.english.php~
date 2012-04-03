@@ -1,0 +1,29 @@
+<?php
+// Version: 2.0; Modifications
+
+// Aeva Media extra strings
+$txt['aeva_gallery'] = isset($txt['aeva_gallery']) ? $txt['aeva_gallery'] : 'Media';
+$txt['aeva_home'] = 'Home';
+$txt['aeva_unseen'] = 'Unseen';
+$txt['aeva_profile_sum'] = 'Summary';
+$txt['aeva_view_items'] = 'View items';
+$txt['aeva_view_coms'] = 'View comments';
+$txt['aeva_view_votes'] = 'View votes';
+$txt['aeva_gotolink'] = 'Details';
+$txt['aeva_zoom'] = 'Zoom';
+$txt['permissiongroup_aeva'] = 'Aeva Media';
+$txt['permissiongroup_simple_aeva'] = 'Aeva Media';
+$txt['permissionname_aeva_access'] = 'Access Gallery';
+$txt['permissionname_aeva_moderate'] = 'Moderate Gallery';
+$txt['permissionname_aeva_manage'] = 'Administrate Gallery';
+$txt['permissionname_aeva_access_unseen'] = 'Access unseen area';
+$txt['permissionname_aeva_search'] = 'Search in Gallery';
+$txt['permissionname_aeva_add_user_album'] = 'Add Albums';
+$txt['permissionname_aeva_add_playlists'] = 'Add User Playlists';
+$txt['permissionname_aeva_auto_approve_albums'] = 'Auto-approve Albums';
+$txt['permissionname_aeva_moderate_own_albums'] = '<span style="border-bottom: 1px #888 dashed" title="Delete any comments/items on own albums, and delete own albums.">Moderate own Albums</span>';
+$txt['permissionname_aeva_viewprofile'] = 'View anyone\'s Gallery profile';
+$txt['cannot_aeva_viewprofile'] = 'You cannot view Gallery profiles';
+// End Aeva Media strings
+
+?>

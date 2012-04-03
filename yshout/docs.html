@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Shoutbox Documentation</title>
+	</head>
+	<body>
+		<div style="width: 800px">
+		<h1>Shoutbox Documentation (for developers)</h1>
+		<h2>Functions</h2>
+		<blockquote>
+			<h3>Command Implementation</h3>
+			<blockquote><dl>
+				<dt><code>doMsg(string $msg)</code></dt>
+					<dd>Causes the shoutbox to be replaced with $msg until
+						the user uses /return (useful for making error messages, notices, etc.)</dd>
+				<dt><code>help(string $command - default '')</code></dt>
+					<dd>Allows users to get help on a command. Use &lt;arg&gt; to
+						denote required arguments and [arg] to denote optional
+						ones. Note that all &lt;&gt; must be entered as &amp;lt; and &amp;gt;
+						or they will not work.
+						Make sure to add an entry in this function for any new
+						commands.</dd>
+				<dt><code>boolean processCommand(string $text)</code></dt>
+					<dd>Process an admin command. If this function fails to
+						find a match, it defaults to the user commands.</dd>
+				<dt><code>boolean processUserCommand(string $text)</code></dt>
+					<dd>Process a user command. This function attempts to match
+						against all known commands. If a valid command match
+						isn't found, the function will return false and the
+						shout ("command") will be displayed as a regular shout.</dd>
+			</dl></blockquote>
+			<h3>User Permissions</h3>
+			<blockquote><dl>
+				<dt><code>boolean isGuest(array $user - defaults to current user)</code></dt>
+					<dd>Returns true if the user is a guest, false otherwise.</dd>
+				<dt><code>boolean isMod(array $user - defaults to current user)</code></dt>
+					<dd>Returns true if the user is a shoutbox moderator, false otherwise.</dd>
+				<dt><code>boolean isPostBanned(array $user - defaults to current user)</code></dt>
+					<dd>Returns true if the user isn't allowed to shout, false otherwise.</dd>
+			</dl></blockquote>
+			<h3>Administrative Functions</h3>
+			<blockquote><dl>
+				<dt><code>boolean deleteShout(string $spanTitle, string $chatPath)</code></dt>
+					<dd>Delete the given shout, identified by its spanTitle (a string
+						formatted as "$shoutTime | $ip") from the file $chatPath.</dd>
+				<dt><code>boolean doBan(string $type, string $mode, string $id)</code></dt>
+					<dd>Ban a user. $type is one of 'ban_ips_' or 'ban_names_', signifying
+						the type of ban (IP or username/displayname). $mode is one of 'u',
+						'rp' or 'p' for unbanning, banning from reading and posting, or 
+						banning from posting only respectively. $id is the actual name
+						or IP to be banned. The return value is true if (un)banning was
+						successful, and false otherwise.</dd>
+				<dt><code>writeBanlist()</code></dt>
+					<dd>Update the banlist file (_banlist.php).</dd>
+			</dl></blockquote>
+			<h3>Reading Shouts</h3>
+			<blockquote><dl>
+				<dt><code>history()</code></dt>
+					<dd>Show the history file in a neat, formatted HTML style.</dd>
+				<dt><code>initShoutbox(array $user, boolean $fromSMF)</code></dt>
+					<dd>Initialize the shoutbox, printing the interface (tool links and
+						the shout form) as well as the current shouts. $fromSMF tells
+						this function whether it was called as an independent script
+						or if it was invoked from SMF (in which case output compression
+						is turned off).</dd>
+				<dt><code>string processChats(string $chatText, array $user - defaults to current user)</code></dt>
+					<dd>Process raw chat text for display: stripping admin links,
+						censoring IPs and formatting the timestamp.</dd>
+				<dt><code>string readChat(string $chatPath, boolean $force - default false)</code></dt>
+					<dd>Return the processed contents of the chat file. If the
+						client is viewing a special message or command, then
+						readChat simply executes that command or returns the
+						message (this command/message is stored in $_SESSION['readingCmd'])
+						If $force is set, the shouts are returned regardless of
+						the contents of $_SESSION['readingCmd'].</dd>
+				<dt><code>refreshChats(boolean $forceRefresh - defaults to false)</code></dt>
+					<dd>Called when reqtype is 'refresh'. This function refreshes the
+						user's display of the chats, and will wait up to $updateTimeout
+						seconds for new shouts before displaying them.</dd>
+			</dl></blockquote>
+			<h3>Shouting</h3>
+			<blockquote><dl>
+				<dt><code>string cleanupShout(string $text)</code></dt>
+					<dd>Cleans up and formats a shout: converts special characters to entities,
+						strips bad BBCode, parses BBCode and censors the text according to the
+						forum settings.</dd>
+				<dt><code>makeShout(string $newText, array $user - defaults to current user)</code></dt>
+					<dd>Makes a standard shout.</dd>
+				<dt><code>makeRawShout(string $newText, array $user - defaults to current user)</code></dt>
+					<dd>Uses $newText to make a shout with timestamp and adminlinks.
+						If you are making custom shouts, you should always call
+						makeShout or makeRawShout, never writeLine.</dd>
+				<dt><code>preg_timeformat(array $matches)</code></dt>
+					<dd>Function used to replace matched &lt;timeval=[UNIX time offset]&gt; with formatted times
+						as per SMF's timeformat function. Called through preg_replace_callback.
+						This function is located in settings.php.</dd>
+				<dt><code>truncateChat(integer $maxLines, string $chatPath, string $historyPath)</code></dt>
+					<dd>Move the first line of the file $chatPath to the file $historyPath
+						history if the number of lines in $chatPath exceeds $maxLines.
+						If $historyPath is the empty string, the first line will simply
+						be deleted.</dd>
+				<dt><code>writeLine(string $newText, string $chatPath)</code></dt>
+					<dd>Write the given line to the chat file ($chatPath).</dd>
+			</dl></blockquote>
+		</blockquote>
+		<h2>Important Globals</h2>
+		<blockquote>
+			<h3>$_SESSION</h3>
+			<blockquote><dl>
+				<dt><code>readingCmd</code></dt>
+					<dd>The command (if it starts with /) or the message to be
+						read back to the user instead of the normal shoutbox chats.</dd>
+			</dl></blockquote>
+			<h3>$_GET</h3>
+			<blockquote><dl>
+				<dt><code>n</code></dt>
+					<dd>Used by the history() function to determine the # of
+						history lines to output.</dd>
+				<dt><code>help</code></dt>
+					<dd>If this is set, the shoutbox will output a full HTML
+						help message (using help()). Use as a standalone page.</dd>
+				<dt><code>history</code></dt>
+					<dd>If this is set, the shoutbox will output a full HTML
+						history page (with history()). Use as a standalone page.</dd>
+				<dt><code>banid</code></dt>
+					<dd>For the administrator's ban link: this is passed as the user
+						ID of the member to be banned.</dd>
+				<dt><code>delete</code></dt>
+					<dd>For deleting shouts; this is a string in the form
+						datecode | ip (this is the format used in the &lt;em title&gt;</dd>
+				<dt><code>unban</code></dt>
+					<dd>Username/identifier to unban (used by /banlist)</dd>
+			</dl></blockquote>
+			<h3>$_POST</h3>
+			<blockquote><dl>
+				<dt><code>reqtype</code></dt>
+					<dd>What function to carry out (shout, refresh, init)</dd>
+				<dt><code>shout</code></dt>
+					<dd>If reqtype is shout, then this is the shout to be made.</dd>
+			</dl></blockquote>
+			<h3>$_SERVER</h3>
+			<blockquote><dl>
+				<dt><code>REMOTE_ADDR</code></dt>
+					<dd>Used for $ip to determine their IP address.</dd>
+			</dl></blockquote>
+			<h3>Global Variables (excludes settings)</h3>
+			<blockquote><dl>
+				<dt><code>$ban_ips_readpost, $ban_ips_post, $ban_names_readpost, $ban_names_post</code></dt>
+					<dd>Ban variables. _ips or _names is the ban criteria (IP
+						address or username) while _readpost or _post is the ban
+						severity (banned from reading+posting or just posting)</dd>
+				<dt><code>$user</code></dt>
+					<dd>SMF user data array. This determines a lot of things about the user (like the username and status)</dd>
+				<dt><code>$ip</code></dt>
+					<dd>User's IP address. Gathered from $_SERVER['REMOTE_ADDR'].</dd>
+				<dt><code>$reqType</code></dt>
+					<dd>Request type; see $_POST['reqtype'].</dd>
+			</dl></blockquote>
+		</blockquote>
+		<h2>Command Implementation</h2>
+		<blockquote>
+			<p>To add a command, first decide whether this command is *user* or
+		*moderator* level.</p>
+			<p>The general format of a command is "/command &lt;required-arguments&gt;
+		[optional-arguments]".</p>
+			<p>Commands are processed in processCommand or processUserCommand.
+		The former is for moderator commands, and the latter is for regular user commands.</p>
+			<p>Processing begins by parsing the args and then running through a
+		long switch/case block. In this block, you will add your command code.
+		Your code should begin with a "case '/commandname':"  and end with a
+		return true; statement.</p>
+			<p>The two things you will have access to locally are $args and
+		$cmd. $args is a string containing all the arguments passed, and $cmd is
+		the exact command used. For example, with the command "/foo bar baz",
+		$cmd will be "/foo" and $args will be "bar baz". This will be handled by
+		the "case '/foo':" statement.</p>
+			<p>Globally, any of the superglobals are available, plus any
+		globals. You may have to include your own globals with a "global $variable1,$variable2;" line.</p>
+			<p>To make a message appear on the shoutbox (for one user only), set the
+		variable $_SESSION['readingCmd'] to $text (which is the main argument
+		for the processing function). This causes the exact text of the command
+		to be reparsed every time the user requests the shoutbox data, and your
+		information will be returned instead of the regular shouts. Don't do this if
+		your command has side-effects, as they will be repeated every time the shoutbox
+		refreshes; use doMsg in this case.</p>
+			<p>The doMsg function (an alternative to setting $_SESSION['readingCmd']) allows
+		you to automatically set a message that will stay up until they use /return.</p>
+			<p>Remember that whenever your function needs to exit, it must do
+		so with "return true;" so that the calling function will know not to
+		"shout" the command.</p>
+		</blockquote>
+		</div>
+	</body>
+</html>

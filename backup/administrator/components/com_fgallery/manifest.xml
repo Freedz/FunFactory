@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<install type="component" version="1.5.0" method="upgrade">
+        <name>FGallery</name>
+        <creationDate>March 2011</creationDate>
+        <author>1extension.com</author>
+        <authorEmail>support@1extension.com</authorEmail>
+        <authorUrl>http://1extension.com</authorUrl>
+        <copyright>Copyright (C) 2010-2011 1extension.com. All Rights Reserved.</copyright>
+        <license>GNU/GPL</license>
+        <version>1.32</version>
+        <description>Description</description>
+		
+        <install> <!-- Runs on install -->
+			<sql>
+				<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+			</sql>
+        </install>
+        <uninstall> <!-- Runs on uninstall -->
+                        <sql>
+				<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
+			</sql>
+        </uninstall>
+ 
+ 
+		<installfile>install.php</installfile>
+		<uninstallfile>uninstall.php</uninstallfile>
+		
+        <!-- Site Main File Copy Section -->
+        <!-- Note the folder attribute: This attribute describes the folder
+                to copy FROM in the package to install therefore files copied
+                in this section are copied from /site/ in the package -->
+        <files folder="site">
+                <filename>index.html</filename>
+                <filename>fgallery.php</filename>
+                <filename>controller.php</filename>
+                <filename>metadata.xml</filename>
+                <folder>views</folder>
+                <folder>models</folder>
+                <folder>helpers</folder>
+                <folder>swf</folder>
+                <folder>includes</folder>
+        </files>
+		
+ 
+        <administration>
+                <!-- Administration Menu Section -->
+                <menu>1 Flash Gallery</menu>
+				<submenu>
+					<!--
+						Note that all & must be escaped to &amp; for the file to be valid
+						XML and be parsed by the installer
+					-->
+					<menu link="option=com_fgallery&amp;controller=galleries">Galleries List</menu>
+					<menu link="option=com_fgallery&amp;controller=gallery&amp;view=gallery">Create Gallery</menu>
+					<menu link="option=com_fgallery&amp;controller=images&amp;view=images">Images List</menu>
+					<menu link="option=com_fgallery&amp;controller=upload&amp;view=upload">Upload Images</menu>
+				</submenu>
+                <!-- Administration Main File Copy Section -->
+                <!-- Note the folder attribute: This attribute describes the folder
+                        to copy FROM in the package to install therefore files copied
+                        in this section are copied from /admin/ in the package -->
+                <files folder="admin">
+                        <!-- Admin Main File Copy Section -->
+                        <filename>index.html</filename>
+                        <filename>fgallery.php</filename>
+                        <filename>controller.php</filename>
+                        <filename>config.xml</filename>
+                        <!-- SQL files section -->
+                        <folder>sql</folder>
+                        <!-- tables files section -->
+                        <folder>tables</folder>
+                        <!-- models files section -->
+                        <folder>models</folder>
+                        <!-- views files section -->
+                        <folder>views</folder>
+						<folder>elements</folder>
+                        <!-- controllers files section -->
+                        <folder>controllers</folder>
+                        <folder>helpers</folder>
+                        <folder>language</folder>
+                        <folder>css</folder>
+                        <folder>images</folder>
+                        <folder>js</folder>
+                        <folder>xml</folder>
+                        <folder>swf</folder>
+                </files>
+ 
+                <languages folder="admin">
+                        <language tag="en-GB">language/en-GB/en-GB.com_fgallery.ini</language>
+                        <language tag="en-GB">language/en-GB/en-GB.com_fgallery.menu.ini</language>
+						<language tag="de-DE">language/de-DE/de-DE.com_fgallery.ini</language>
+                        <language tag="de-DE">language/de-DE/de-DE.com_fgallery.sys.ini</language>
+						<language tag="es-ES">language/es-ES/es-ES.com_fgallery.ini</language>
+                        <language tag="es-ES">language/es-ES/es-ES.com_fgallery.sys.ini</language>
+                </languages>
+        </administration>
+		
+		<params />
+		
+		<modules>
+			<module module="mod_fgallery" title="1 Flash Gallery" client="site">
+				<files folder="mod_fgallery">
+					<folder>tmpl</folder>
+					<file>index.html</file>
+					<file>mod_fgallery.php</file>
+					<file>mod_fgallery.xml</file>
+				</files>
+				<languages folder="mod_fgallery">
+					<language tag="en-GB">en-GB.mod_fgallery.ini</language>
+				</languages>
+			</module>
+			<module module="mod_flashgalleries" title="1 Flash Multi Gallery" client="site">
+				<files folder="mod_flashgalleries">
+					<folder>tmpl</folder>
+					<file>index.html</file>
+					<file>helper.php</file>
+					<file>mod_flashgalleries.php</file>
+					<file>mod_flashgalleries.xml</file>
+				</files>
+				<languages folder="mod_flashgalleries">
+					<language tag="en-GB">en-GB.mod_flashgalleries.ini</language>
+				</languages>
+			</module>
+		</modules>
+		<plugins>
+			<plugin plugin="fgallery" group="content" title="Content - 1 Flash Gallery">
+				<files folder="plg_content_fgallery">
+					<file>fgallery.php</file>
+					<file>fgallery.xml</file>
+				</files>
+			</plugin>
+			<plugin plugin="fgallery" group="editors-xtd" title="Button - Insert Gallery">
+				<files folder="plg_editors-xtd_fgallery">
+					<file>fgallery.php</file>
+					<file>fgallery.xml</file>
+				</files>
+			</plugin>
+		</plugins>
+		<check>
+			<directory>/modules</directory>
+			<directory>/plugins/content</directory>
+			<directory>/plugins/editors-xtd</directory>
+			<directory>/images/stories/fgallery</directory>
+			<directory>/images/stories/fgallery/tmp</directory>
+			<extension name="fgallery" type="plugins" field="published" value="1">element='fgallery'</extension>
+			<extension name="mod_fgallery"  type="modules" field="published" value="1">module='mod_fgallery'</extension>
+		</check>
+</install>

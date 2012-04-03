@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+		<param name="watermark" type="radio"
+			default="0"
+			description="COM_FGALLERY_WATERMARK_DESC"
+			label="COM_FGALLERY_WATERMARK_LABEL"
+		>
+			<option value="0">COM_FGALLERY_DISABLE</option>
+			<option value="1">COM_FGALLERY_ENABLE</option>
+		</param>
+		
+		<param	name="watermark_position" type="radio"
+				default="TL"
+				label="COM_FGALLERY_WATERMARK_POSITION_LABEL"
+				description="COM_FGALLERY_WATERMARL_POSITION_DESC">
+						
+				<option value="TL">COM_FGALLERY_TOP_LEFT</option>
+				<option value="TM">COM_FGALLERY_TOP_MIDDLE</option>
+				<option value="TR">COM_FGALLERY_TOP_RIGHT</option>
+                                <option value="CL">COM_FGALLERY_CENTER_LEFT</option>
+				<option value="C">COM_FGALLERY_CENTER</option>
+				<option value="CR">COM_FGALLERY_CENTER_RIGHT</option>
+                                <option value="BL">COM_FGALLERY_BOTTOM_LEFT</option>
+				<option value="BM">COM_FGALLERY_BOTTOM_MIDDLE</option>
+				<option value="BR">COM_FGALLERY_BOTTOM_RIGHT</option>
+		</param>
+		
+		<param name="watermark_source" type="imagelist"
+			description="COM_FGALLERY_WATERMARK_IMAGE_DESC"
+			label="COM_FGALLERY_WATERMARK_IMAGE_LABEL"
+                        directory="images/stories"
+		/>
+		
+	</params>
+	
+</config>

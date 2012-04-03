@@ -1,0 +1,25 @@
+h3.catbg, h3.titlebg {
+	margin: 0;
+	padding: 6px;
+}
+.topslice, .botslice {
+	display: block;
+	height: 4px;
+}
+#viewitem h4, .roundframe h3 {
+	margin: 2px;
+}
+.roundframe h3 {
+	color: #c63;
+}
+.roundframe {
+	margin: 4px;
+	padding: 4px 16px;
+	border: 1px dotted #888;
+}
+.pagelinks {
+	padding: 6px 0 0 0 !important;
+}
+.aelista tr td {
+	padding: 8px !important;
+}

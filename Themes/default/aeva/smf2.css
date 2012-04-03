@@ -1,0 +1,33 @@
+/* Styles for rounded headers. (Borrowed from SMF2 RC3)
+------------------------------------------------------- */
+h3.catbg, h3.titlebg
+{
+	line-height: 32px;
+}
+h3.titlebg a:hover, h4.titlebg a:hover
+{
+	color: #ffa500;
+	text-decoration: none;
+}
+h3.catbg img.icon, h4.titlebg img.icon
+{
+	vertical-align: middle;
+	margin: -2px 5px 0 0;
+}
+h4.catbg a.toggle img
+{
+	vertical-align: middle;
+	margin: -2px 5px 0 5px;
+}
+div.title_bar
+{
+	background: url(../images/theme/main_block.png) no-repeat 0 -200px;
+	padding-left: 9px;
+	overflow: hidden;
+}
+div.cat_bar
+{
+	background: url(../images/theme/main_block.png) no-repeat 0 -160px;
+	padding-left: 9px;
+	overflow: hidden;
+}
